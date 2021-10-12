@@ -30,12 +30,12 @@ class Database extends Config
      *
      * @var array
      */
-    public $default = [
+    public $koneksiku = [
         'DSN'      => '',
         'hostname' => 'localhost',
-        'username' => '',
+        'username' => 'root',
         'password' => '',
-        'database' => '',
+        'database' => 'db_pustaka_booking_12200514git',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
