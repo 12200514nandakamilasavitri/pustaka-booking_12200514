@@ -3,6 +3,8 @@
 namespace Config;
 
 // Create a new instance of our RouteCollection class.
+use function MongoDB\BSON\toCanonicalExtendedJSON;
+
 $routes = Services::routes();
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
@@ -33,9 +35,16 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/hello', 'SelamatDatang::hal_awal');
-$routes->get('/login', 'SelamatDatang::beranda_login');
-$routes->post('/login', 'Login::cekLogin');
-$routes->get('/daftar-member','SelamatDatang::daftar_member');
+$routes->post('/login','Login::cekLogin');
+$routes->get('/daftar-member', 'SelamatDatang::daftar_member');
+$routes->get('/beranda', 'SelamatDatang::hal_beranda', ['filter'=> 'auth']);
+
+$routes->get('/login', 'SelamatDatang::beranda_login', ['filter'=>'autoin']);
+$routes->get('/logout', function(){
+    Services::session()->destroy();
+    return redirect()->to('/login');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
@@ -51,4 +60,3 @@ $routes->get('/daftar-member','SelamatDatang::daftar_member');
  */
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
-}
